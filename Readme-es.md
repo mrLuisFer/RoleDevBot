@@ -1,7 +1,7 @@
 # RoleDevBot 🤖
 
-[Readme en Español]('./Readme-es.md') \
-[Readme in English]('./README.md')
+[Readme en Español](./Readme-es.md) \
+[Readme in English](./README.md)
 
 Este es un Bot simple hecho para el servidor callMeDev
 
@@ -11,7 +11,7 @@ Un servidor de Discord hecho para que personas que quieran crear alguna idea o p
 
 Si tienes alguna idea que quieras realizar o algun proyecto que quieras realizar con mas programadores o diseñadores y hacer tu idea realidad, solo entra al servidor con el siguiente link y comparte tus ideas🌟
 
-📎[Unete para aprender y conocer mas! :)]('https://discord.gg/Gcj8z64UxV')
+📎[Unete para aprender y conocer mas! :)](https://discord.gg/Gcj8z64UxV)
 
 El servidor no es solo para programadores, sino tambien para Diseñadores, DevOps y cualquier persona que se interese en el mundo de la tecnologia o quiera aprender algo nuevo desarrollando proyectos🌟
 

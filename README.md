@@ -1,7 +1,7 @@
 # RoleDevBot 🤖
 
-[Readme en Español]('./Readme-es.md') \
-[Readme in English]('./README.md')
+[Readme en Español](./Readme-es.md) \
+[Readme in English](./README.md)
 
 This is a simple Bot made for the callMeDev server
 
@@ -11,7 +11,7 @@ A Discord server made for people who want to create an idea or project to grow p
 
 If you have an idea that you want to carry out or a project that you want to carry out with more programmers or designers and make your idea come true, just enter the server with the following link and share your ideas🌟
 
-📎[Join to learn and know more! :)]('https://discord.gg/Gcj8z64UxV')
+📎[Join to learn and know more! :)](https://discord.gg/Gcj8z64UxV)
 
 The server is not only for programmers, but also for Designers, DevOps and anyone who is interested in the world of technology or wants to learn something new developing projects🌟
 
