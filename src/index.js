@@ -4,13 +4,14 @@ const { Client, Role, MessageEmbed } = require("discord.js")
 require("dotenv").config()
 
 // class instances
-const client = new Client()
+const client = new Client({
+  partials: ["MESSAGE", "REACTION"],
+})
 const role = new Role()
 
 // utils
 const colors = require("./utils/colors")
 const command = require("./utils/command")
-const autorole = require("./utils/autorole")
 
 client.on("ready", () => {
   console.log(`Bot is ready as ${client.user.username}`)
@@ -120,13 +121,90 @@ client.on("ready", () => {
 
     message.channel.send(embed)
   })
-
-  autorole(client)
 })
 
 // Messages for the channel
 client.on("message", (message) => {
   if (message.author === client.user) return
+  if (message.author.bot) return
+})
+
+// Roles
+const frontend = "807113403109212160"
+const backend = "807114218896752661"
+const designer = "807283516403875922"
+const gameDev = "807115080025112587"
+const deskDev = "807114734364524564"
+const fullstack = "807114546207522876"
+const mobileDev = "807114369129250868"
+
+// Message Id
+const messageId = "807487122407030784"
+
+client.on("messageReactionAdd", (reaction, user) => {
+  const { name } = reaction.emoji
+  const member = reaction.message.guild.members.cache.get(user.id)
+
+  console.log(name)
+
+  if (reaction.message.id === messageId) {
+    switch (name) {
+      case "javascript":
+        member.roles.add(`${frontend}`)
+        break
+      case "php":
+        member.roles.add(`${backend}`)
+        break
+      case "css3":
+        member.roles.add(`${designer}`)
+        break
+      case "video_game":
+        member.roles.add(`${gameDev}`)
+        break
+      case "desktop":
+        member.roles.add(`${deskDev}`)
+        break
+      case "nodejs":
+        member.roles.add(`${fullstack}`)
+        break
+      case "mobiledeveloper":
+        member.roles.add(`${mobileDev}`)
+        break
+      default:
+        console.log("default")
+    }
+  }
+})
+
+client.on("messageReactionRemove", (reaction, user) => {
+  const { name } = reaction.emoji
+  const member = reaction.message.guild.members.cache.get(user.id)
+
+  if (reaction.message.id === messageId) {
+    switch (name) {
+      case "javascript":
+        member.roles.remove(frontend)
+        break
+      case "php":
+        member.roles.remove(backend)
+        break
+      case "css3":
+        member.roles.remove(designer)
+        break
+      case "video_game":
+        member.roles.remove(gameDev)
+        break
+      case "desktop":
+        member.roles.remove(deskDev)
+        break
+      case "nodejs":
+        member.roles.remove(fullstack)
+        break
+      case "mobiledeveloper":
+        member.roles.remove(mobileDev)
+        break
+    }
+  }
 })
 
 // the client login to the bot
