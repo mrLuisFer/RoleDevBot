@@ -85,6 +85,8 @@ client.on("ready", () => {
       message.channel.messages.fetch().then((results) => {
         message.channel.bulkDelete(results)
       })
+    } else {
+      message.channel.send("No tienes permiso para eliminar el chat >:I")
     }
   })
 
@@ -311,10 +313,12 @@ client.on("ready", () => {
         Id: **${id}**
 
         Verified: **${verified}**
-      `
+      
+        Discord: ${tag}
+        `
       )
       .setThumbnail(`${client.user.avatarURL()}`)
-      .setFooter(`Discord: ${tag}`)
+      .setFooter(`Beep Boop, Boop Beep`)
     message.channel.send(embed)
   })
 })
