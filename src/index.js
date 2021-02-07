@@ -26,7 +26,7 @@ client.on("ready", () => {
       .setAuthor(message.channel.guild.name, message.guild.iconURL())
       .setTitle("🧠 Ayuda?")
       .setColor(colors.orange)
-      .setThumbnail("https://media.giphy.com/media/ZVik7pBtu9dNS/giphy.gif")
+      .setImage("https://media.giphy.com/media/ZVik7pBtu9dNS/giphy.gif")
       .setFooter(
         `
         Los comandos siguen en construccion asi que los comandos pueden cambiar en el futuro ;)
@@ -290,26 +290,31 @@ client.on("ready", () => {
     await message.react("🤖")
 
     // console.log(client.user)
+
+    // Get the guild info of the server
     const { guild } = message
-    const icon = guild.iconURL()
     const { name } = guild
+    const icon = guild.iconURL()
+
+    // Get the info to bot data
+    const { username, bot, id, verified, tag } = client.user
 
     const embed = new MessageEmbed()
       .setAuthor(name, icon)
       .setColor(colors.orange)
       .setDescription(
         `
-        Username: **${client.user.username}**
+        Username: **${username}**
 
-        Bot: **${client.user.bot}**
+        Bot: **${bot}**
 
-        Id: **${client.user.id}**
+        Id: **${id}**
 
-        Verified: **${client.user.verified}**
+        Verified: **${verified}**
       `
       )
       .setThumbnail(`${client.user.avatarURL()}`)
-      .setFooter(`Discord: ${client.user.tag}`)
+      .setFooter(`Discord: ${tag}`)
     message.channel.send(embed)
   })
 })
