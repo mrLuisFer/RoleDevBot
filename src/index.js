@@ -335,6 +335,87 @@ client.on("ready", () => {
       .setFooter(`Beep Boop, Boop Beep`)
     message.channel.send(embed)
   })
+
+  command(client, "rules", (message) => {
+    if (
+      message.channel.name === "📖reglas" ||
+      message.channel.id === "807084131678027777"
+    ) {
+      const { guild } = message
+      const { name } = guild
+      const icon = guild.iconURL()
+
+      const embed = new MessageEmbed()
+        .setAuthor(name, icon)
+        .setTitle("⚠ - Reglas del Servidor")
+        .setColor(colors.green)
+        .setFooter(
+          "Sino estas de acuerdo con alguna regla o crees poder mejorar alguna solo comentala en el canal de sugerencias"
+        ).setDescription(`
+        \n 
+          ✅ Permitido:
+
+          - **Respeta** Se cordial, respetuoso y amable con todas y todos los miembros de este servidor
+          
+          - **Se Ordenado** Respeta las tematicas de cada canal para asi tener un mejor manejo de todo el servidor
+
+          - **Comparte** Recuerda que el objetivo de este servidor es que todos aprendan, asi que no olvides compartir de la mejor manera los conociminetos que tengas acerca de un tema
+
+          - **Seguridad** Si llegas a resivir algun tipo de acoso o insulto de alguno de los miembros de este servidor, comentalo y con gusto te ayudaremos personalmente para solucionarlo
+
+          - **Ayuda?** Puedes pedir ayuda para proyectos o dudas de cualquier sector de TI que tengas, solo recuerda ser respetuoso
+
+          - **Opiniones** La idea de compartir tus conocimientos es para crecer profesionalmente y por lo tanto aceptar opiniones, siempre y cuando sean con respeto y ayuden de verdad
+
+          - **Sugerencias?** Claro!, se aceptan cualquier tipo de sugerencia relevante al servidor o al manejo de este, tambien puedes aportar tus ideas para mejorarlo o hacerlo crecer 
+
+          - **Colaboraciones** Puedes compartir algun proyecto o idea que quieras realizar para colaborar con mas personas de cualquier sector y asi aprender todos juntos
+
+        `)
+
+      const embedErrors = new MessageEmbed()
+        .setDescription(
+          `
+          \n
+          ❌ No Permitido:
+          - **No contenido NSFW**  No compartas ese tipo de contenido en el servidor, trata de ser mas profesional asi las personas sabran en quien confiar para su proximo proyecto
+
+          - **Contenido Ilegal** No se permitira contenido ilegal, comprar los recursos o libros ayuda mas a sus creadores o autores
+
+          - **No Spam**  No se tolerara el spam abusivo o fuera de lugar o inapropiado
+
+          - **Opiniones** No se aceptaran opiniones idealistas, religiosas, racistas o politicas esas se respetan y se quedan contigo
+      `
+        )
+        .setAuthor(name, icon)
+        .setColor(colors.red)
+
+      const embedExtras = new MessageEmbed()
+        .setDescription(
+          `
+          \n
+          ℹ Extras:
+
+          - **Roles?** Puedes tomar los roles permitidos en la seccion de roles que esta configurado con nuestro bot
+
+          - **Puedo ser Mod o Admin?** Claro, pidelo por el canal de general y alguno de nuestros Admins revisara tu perfil y verificara que se te de el rol ;)
+
+          - **Talleres?** Puedes compartir algun taller o clase con quienes gusten asistir por alguno de nuestros canales de voz
+
+          - **Ayuda en Codigo** Si requieres ayuda con el codigo recuerda mandar alguna captura del error o escribir el codigo por medio de  backticks
+
+          **Estas de acuerdo?** Si estas de acuerdo con estas simples reglas, solo disfruta del servidor, aprende mucho mas y conoce a personas que pueden ser tus proximos amigos :D
+         `
+        )
+        .setAuthor(name, icon)
+        .setColor(colors.yellow)
+
+      message.channel.send(embed)
+      message.channel.send(embedErrors)
+      message.channel.send(embedExtras)
+    } else {
+    }
+  })
 })
 
 // Messages for the channel
