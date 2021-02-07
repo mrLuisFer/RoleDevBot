@@ -114,6 +114,7 @@ client.on("ready", () => {
     const embed = new MessageEmbed()
       .setTitle(`Informacion de: ${name}`)
       .setThumbnail(icon)
+      .setColor(colors.wine)
       .addFields(
         {
           name: "Region",
@@ -161,7 +162,7 @@ client.on("ready", () => {
           "npm",
           "https://pbs.twimg.com/profile_images/1285630920263966721/Uk6O1QGC_400x400.jpg"
         )
-        .setTitle(`Package: ${info.collected.metadata.name}`)
+        .setTitle(`📦Package: ${info.collected.metadata.name}`)
         .addFields(
           {
             name: "Version:",
@@ -172,7 +173,7 @@ client.on("ready", () => {
             value: `${info.collected.metadata.description}`,
           },
           {
-            name: "License:",
+            name: "📜License:",
             value: `${info.collected.metadata.license}`,
           }
         )
@@ -283,6 +284,33 @@ client.on("ready", () => {
     } else {
       message.channel.send("Informacion no encontrada en la Wikipedia :(")
     }
+  })
+
+  command(client, "bot", async (message) => {
+    await message.react("🤖")
+
+    // console.log(client.user)
+    const { guild } = message
+    const icon = guild.iconURL()
+    const { name } = guild
+
+    const embed = new MessageEmbed()
+      .setAuthor(name, icon)
+      .setColor(colors.orange)
+      .setDescription(
+        `
+        Username: **${client.user.username}**
+
+        Bot: **${client.user.bot}**
+
+        Id: **${client.user.id}**
+
+        Verified: **${client.user.verified}**
+      `
+      )
+      .setThumbnail(`${client.user.avatarURL()}`)
+      .setFooter(`Discord: ${client.user.tag}`)
+    message.channel.send(embed)
   })
 })
 
