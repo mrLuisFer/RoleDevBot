@@ -17,6 +17,7 @@ const fetch = require("node-fetch")
 client.on("ready", () => {
   console.log(`Bot is ready as ${client.user.username}`)
   client.user.setStatus("online")
+  client.setMaxListeners(20)
 
   command(client, ["help", "h"], async (message) => {
     await message.react("😉")
@@ -33,7 +34,7 @@ client.on("ready", () => {
       )
       .setDescription(
         `
-      **_help**  mostrara los comandos existentes en el bot
+      **_help  _h**  mostrara los comandos existentes en el bot
 
       **_avatar** mostrara la foto y id de tu perfil
 
@@ -48,6 +49,8 @@ client.on("ready", () => {
       **_repo  _repository** te mostrara el mensaje del repositorio
 
       **_npm  _someModule_** te mostrara informacion basica de algun modulo de npm
+
+      **_wiki  _someText_** te devolvera una pequeña definicion del texto que coloques
       `
       )
 
@@ -154,13 +157,24 @@ client.on("ready", () => {
       info.collected.metadata !== undefined
     ) {
       const embed = new MessageEmbed()
-        .setTitle(`${info.collected.metadata.name}`)
-        .setDescription(
-          `
-      Version: ${info.collected.metadata.version}
-      Description: ${info.collected.metadata.description} 
-      License: ${info.collected.metadata.license}
-      `
+        .setAuthor(
+          "npm",
+          "https://pbs.twimg.com/profile_images/1285630920263966721/Uk6O1QGC_400x400.jpg"
+        )
+        .setTitle(`Package: ${info.collected.metadata.name}`)
+        .addFields(
+          {
+            name: "Version:",
+            value: `${info.collected.metadata.version}`,
+          },
+          {
+            name: "Description:",
+            value: `${info.collected.metadata.description}`,
+          },
+          {
+            name: "License:",
+            value: `${info.collected.metadata.license}`,
+          }
         )
         .setFooter(
           `Link: ${
@@ -175,7 +189,7 @@ client.on("ready", () => {
         )
 
       message.channel.send(embed)
-    } else if (info.code === "NOT_FOUND") {
+    } else if (info.code === "NOT_FOUND" || info.code === "INVALID_PARAMETER") {
       // This send a simple error message
       message.channel.send("Modulo no encontrado")
     }
@@ -214,6 +228,61 @@ client.on("ready", () => {
       .setColor(colors.yellow)
 
     message.channel.send(embed)
+  })
+
+  command(client, ["wiki", "wikipedia"], async (message) => {
+    const content = message.content.replace("_wiki ", "")
+
+    const getData = async (text) => {
+      const response = await fetch(`
+    https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch=${text}
+      `)
+      const data = await response.json()
+
+      return data
+    }
+
+    const info = await getData(content)
+
+    // A little validate to send the message
+    if (
+      info !== null &&
+      info !== undefined &&
+      info.query !== undefined &&
+      info.query.search !== undefined
+    ) {
+      const firstResult = info?.query.search[0]
+      console.log(firstResult)
+
+      if (firstResult !== undefined || firstResult !== null) {
+        try {
+          const snippetText = firstResult.snippet.replace(/<[^>]*>/g, "")
+          const embed = new MessageEmbed()
+            .setAuthor(
+              "Wikipedia",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Wikipedia-logo-v2-es.svg/1200px-Wikipedia-logo-v2-es.svg.png"
+            )
+            .setTitle(`- ${firstResult.title}`)
+            .setDescription(
+              `
+            ${snippetText}...
+            
+            Conocer mas: https://es.wikipedia.org/wiki/${content}
+            `
+            )
+            .setColor(colors.white)
+            .setThumbnail(
+              "https://media.giphy.com/media/cQ23bDqzbWbh240xQq/giphy.gif"
+            )
+
+          message.channel.send(embed)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    } else {
+      message.channel.send("Informacion no encontrada en la Wikipedia :(")
+    }
   })
 })
 
