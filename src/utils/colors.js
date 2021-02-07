@@ -1,20 +1,16 @@
-const colors = [
-  "#161d6f",
-  "#184d47",
-  "#ffb26b",
-  "#ffd56b",
-  "#ef4f4f",
-  "#c0e218",
-  "#c6ebc9",
-  "#70af85",
-  "#9f5f80",
-  "#cd5d7d",
-  "#a7c5eb",
-  "#eff8ff",
-  "#ffabe1",
-  "#ff8585",
-  "#21209c",
-  "#045762",
-]
+const colors = {
+  red: "#f05454",
+  darkBlue: "#1a508b",
+  blue: "#a4ebf3",
+  lemon: "#c7ffd8",
+  pink: "#fbaccc",
+  white: "#f4f9f9",
+  yellow: "#ffee93",
+  purple: "#845ec2",
+  green: "#a6f0c6",
+  cream: "#ffcda3",
+  wine: "#cd5d7d",
+  orange: "#ff8e71",
+}
 
 module.exports = colors

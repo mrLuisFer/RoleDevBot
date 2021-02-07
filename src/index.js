@@ -23,7 +23,7 @@ client.on("ready", () => {
     const embed = new MessageEmbed()
       .setAuthor(message.channel.guild.name, message.guild.iconURL())
       .setTitle("🧠 Ayuda?")
-      .setColor(colors[6])
+      .setColor(colors.orange)
       .setThumbnail("https://media.giphy.com/media/ZVik7pBtu9dNS/giphy.gif")
       .setFooter(
         `
@@ -55,7 +55,7 @@ client.on("ready", () => {
         .setAuthor(guild.name)
         .setDescription(`Tenemos un total de ${guild.memberCount} miembros! :D`)
         .setThumbnail("https://media.giphy.com/media/aFTt8wvDtqKCQ/giphy.gif")
-        .setColor(colors[3])
+        .setColor(colors.green)
       message.channel.send(embed)
     })
   })
@@ -66,7 +66,7 @@ client.on("ready", () => {
       .setThumbnail(avatarUrl)
       .setTitle("Este es tu avatar")
       .setAuthor(`${message.member.displayName}`, `${avatarUrl}`)
-      .setColor(colors[0])
+      .setColor(colors.cream)
       .setDescription(`id: ${message.author.id}`)
 
     message.channel.send(embed)
@@ -135,7 +135,7 @@ client.on("ready", () => {
     const info = await getData(content)
     console.log(info)
 
-    // A litle validate to send the message
+    // A little validate to send the message
     if (
       info !== null &&
       info !== undefined &&
@@ -158,7 +158,7 @@ client.on("ready", () => {
               : info.collected.metadata.links?.homepage
           }`
         )
-        .setColor(colors[3])
+        .setColor(colors.yellow)
         .setThumbnail(
           "https://media.giphy.com/media/gHnBLyeYE6hboT3t3o/giphy.gif"
         )
@@ -173,6 +173,7 @@ client.on("ready", () => {
 
 // Messages for the channel
 client.on("message", (message) => {
+  // Validate to the messages isn't from the bot
   if (message.author === client.user) return
   if (message.author.bot) return
 })
