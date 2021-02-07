@@ -203,6 +203,18 @@ client.on("ready", () => {
 
     message.channel.send(embed)
   })
+
+  command(client, ["yei", "yay"], async (message) => {
+    await message.react("😁")
+
+    const embed = new MessageEmbed()
+      .setAuthor(message.channel.guild.name, message.guild.iconURL())
+      .setTitle("Don't worry Be happy! 😄")
+      .setImage("https://media.giphy.com/media/13hxeOYjoTWtK8/giphy.gif")
+      .setColor(colors.yellow)
+
+    message.channel.send(embed)
+  })
 })
 
 // Messages for the channel
