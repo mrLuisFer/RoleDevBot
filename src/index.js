@@ -1,6 +1,6 @@
 "use strict"
 
-const { Client, Role, MessageEmbed } = require("discord.js")
+const { Client, MessageEmbed } = require("discord.js")
 require("dotenv").config()
 
 // class instances
@@ -13,6 +13,7 @@ const colors = require("./utils/colors")
 const command = require("./utils/command")
 const fetch = require("node-fetch")
 
+// Commands
 client.on("ready", () => {
   console.log(`Bot is ready as ${client.user.username}`)
   client.user.setStatus("online")
@@ -38,11 +39,15 @@ client.on("ready", () => {
 
       **_members** mostrara el total de miembros del servidor
 
-      **_cc** **_clear** limpiara los mensajes de un canal que tengan menos de 2 semanas, solo si eres _Administrador_
+      **_cc**  **_clear** limpiara los mensajes de un canal que tengan menos de 2 semanas, solo si eres _Administrador_
       
       **_serverinfo** te muestra informacion basica del servidor que podria interesarte
 
-      **_status _someText_** colocara el estatus del bot dependiendo del texto que coloques al lado del comando
+      **_status  _someText_** colocara el estatus del bot dependiendo del texto que coloques al lado del comando
+      
+      **_repo  _repository** te mostrara el mensaje del repositorio
+
+      **_npm  _someModule_** te mostrara informacion basica de algun modulo de npm
       `
       )
 
@@ -83,12 +88,18 @@ client.on("ready", () => {
   command(client, "status", (message) => {
     const content = message.content.replace("_status ", "")
 
-    client.user.setPresence({
-      activity: {
-        name: content,
-        type: 0,
-      },
-    })
+    if (content === "_status") {
+      message.channel.send(
+        "Por favor coloca un estado que quieres que este el Bot ;)"
+      )
+    } else {
+      client.user.setPresence({
+        activity: {
+          name: content,
+          type: 0,
+        },
+      })
+    }
   })
 
   command(client, "serverinfo", (message) => {
@@ -168,6 +179,29 @@ client.on("ready", () => {
       // This send a simple error message
       message.channel.send("Modulo no encontrado")
     }
+  })
+
+  command(client, ["repo", "repository"], (message) => {
+    const embed = new MessageEmbed()
+      .setAuthor(
+        "Github",
+        "https://image.flaticon.com/icons/png/512/25/25231.png"
+      )
+      .setColor(colors.black)
+      .setDescription(
+        `
+        Revisa el codigo y puedes unirte para aprender o mejorar el codigo del Bot 🤖
+        
+        Puedes hacer tus **pull request** y con gusto sera revisado para unirlo al codigo 🧠
+        
+        **Link:** https://github.com/mrLuisFer/RoleDevBot
+        `
+      )
+      .setThumbnail(
+        "https://media.giphy.com/media/dxn6fRlTIShoeBr69N/giphy.gif"
+      )
+
+    message.channel.send(embed)
   })
 })
 
