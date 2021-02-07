@@ -3,6 +3,12 @@ const { MessageEmbed } = require("discord.js")
 const colors = require("./colors")
 
 function setErrorEmbed(messageInfo, solutionText = "") {
+  let solutionAccept = ""
+
+  if (solutionText.length > 0) {
+    solutionAccept = `✅Solucion: ${solutionText}`
+  }
+
   const embed = new MessageEmbed()
     .setColor(colors.red)
     .setTitle("Error")
@@ -10,7 +16,7 @@ function setErrorEmbed(messageInfo, solutionText = "") {
     .setDescription(`
       ❌Error: ${messageInfo}
       
-      ✅Solucion: ${solutionText}
+      ${solutionAccept}
       `)
 
   return embed

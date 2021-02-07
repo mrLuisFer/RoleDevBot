@@ -414,6 +414,11 @@ client.on("ready", () => {
       message.channel.send(embedErrors)
       message.channel.send(embedExtras)
     } else {
+      const error = setErrorEmbed(
+        "El comando de _rules solo aparecera en el canal de **reglas**"
+      )
+
+      message.channel.send(error)
     }
   })
 })
