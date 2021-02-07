@@ -7,11 +7,11 @@ require("dotenv").config()
 const client = new Client({
   partials: ["MESSAGE", "REACTION"],
 })
-const role = new Role()
 
 // utils
 const colors = require("./utils/colors")
 const command = require("./utils/command")
+const fetch = require("node-fetch")
 
 client.on("ready", () => {
   console.log(`Bot is ready as ${client.user.username}`)
@@ -120,6 +120,54 @@ client.on("ready", () => {
       )
 
     message.channel.send(embed)
+  })
+
+  command(client, "npm", async (message) => {
+    const content = message.content.replace("_npm ", "")
+
+    const getData = async (text) => {
+      const response = await fetch(`https://api.npms.io/v2/package/${text}`)
+      const data = await response.json()
+
+      return data
+    }
+
+    const info = await getData(content)
+    console.log(info)
+
+    // A litle validate to send the message
+    if (
+      info !== null &&
+      info !== undefined &&
+      info.collected !== undefined &&
+      info.collected.metadata !== undefined
+    ) {
+      const embed = new MessageEmbed()
+        .setTitle(`${info.collected.metadata.name}`)
+        .setDescription(
+          `
+      Version: ${info.collected.metadata.version}
+      Description: ${info.collected.metadata.description} 
+      License: ${info.collected.metadata.license}
+      `
+        )
+        .setFooter(
+          `Link: ${
+            info.collected.github?.homepage !== undefined
+              ? info.collected.github?.homepage
+              : info.collected.metadata.links?.homepage
+          }`
+        )
+        .setColor(colors[3])
+        .setThumbnail(
+          "https://media.giphy.com/media/gHnBLyeYE6hboT3t3o/giphy.gif"
+        )
+
+      message.channel.send(embed)
+    } else if (info.code === "NOT_FOUND") {
+      // This send a simple error message
+      message.channel.send("Modulo no encontrado")
+    }
   })
 })
 
