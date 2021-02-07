@@ -11,12 +11,15 @@ const client = new Client({
 // utils
 const colors = require("./utils/colors")
 const command = require("./utils/command")
+const setErrorEmbed = require("./utils/msgErrorEmbed")
+// require fetch since for some reason, by default it detects it as undefined
 const fetch = require("node-fetch")
 
 // Commands
 client.on("ready", () => {
   console.log(`Bot is ready as ${client.user.username}`)
   client.user.setStatus("online")
+  // handles the maximum available event or command listener
   client.setMaxListeners(20)
 
   command(client, ["help", "h"], async (message) => {
@@ -51,6 +54,8 @@ client.on("ready", () => {
       **_npm  _someModule_** te mostrara informacion basica de algun modulo de npm
 
       **_wiki  _someText_** te devolvera una pequeña definicion del texto que coloques
+
+      **_bot** te da informacion basica acerca del Bot
       `
       )
 
@@ -86,7 +91,13 @@ client.on("ready", () => {
         message.channel.bulkDelete(results)
       })
     } else {
-      message.channel.send("No tienes permiso para eliminar el chat >:I")
+      const solution =
+        "Si quieres eliminar algun mensaje hazlo manualmente o habla con algun ADMIN para revisar que es lo que necesitas"
+      const error = setErrorEmbed(
+        "No tienes permiso para eliminar el chat >:I",
+        solution
+      )
+      message.channel.send(error)
     }
   })
 
@@ -194,7 +205,10 @@ client.on("ready", () => {
       message.channel.send(embed)
     } else if (info.code === "NOT_FOUND" || info.code === "INVALID_PARAMETER") {
       // This send a simple error message
-      message.channel.send("Modulo no encontrado")
+      const solution =
+        "Revisa que hayas escrito bien el nombre del paquete o si pusiste un espacio cambialo por un **-**"
+      const error = setErrorEmbed("Modulo no encontrado", solution)
+      message.channel.send(error)
     }
   })
 
