@@ -20,7 +20,7 @@ module.exports = (client, aliases, callback) => {
         contentLower.startsWith(`${commandLower} `) ||
         contentLower === commandLower
       ) {
-        console.log(`Running the command ${commandLower}`)
+        // console.log(`Running the command ${commandLower}`)
         callback(message)
       }
     })

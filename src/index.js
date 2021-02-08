@@ -161,7 +161,7 @@ client.on("ready", () => {
     }
 
     const info = await getData(content)
-    console.log(info)
+    // console.log(info)
 
     // A little validate to send the message
     if (
@@ -269,7 +269,7 @@ client.on("ready", () => {
       info.query.search !== undefined
     ) {
       const firstResult = info?.query.search[0]
-      console.log(firstResult)
+      // console.log(firstResult)
 
       if (firstResult !== undefined || firstResult !== null) {
         try {
@@ -446,7 +446,7 @@ client.on("messageReactionAdd", (reaction, user) => {
   const { name } = reaction.emoji
   const member = reaction.message.guild.members.cache.get(user.id)
 
-  console.log(name)
+  // console.log(name)
 
   if (reaction.message.id === messageId) {
     switch (name) {
@@ -471,8 +471,6 @@ client.on("messageReactionAdd", (reaction, user) => {
       case "mobiledeveloper":
         member.roles.add(`${mobileDev}`)
         break
-      default:
-        console.log("default")
     }
   }
 })
