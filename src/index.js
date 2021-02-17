@@ -247,7 +247,7 @@ client.on("ready", () => {
     message.channel.send(embed)
   })
 
-  command(client, ["wiki", "wikipedia"], async (message) => {
+  command(client, "wiki", async (message) => {
     const content = message.content.replace("_wiki ", "")
 
     const getData = async (text) => {
@@ -421,6 +421,38 @@ client.on("ready", () => {
       message.channel.send(error)
     }
   })
+
+  command(client, "greet", (message) => {
+    const text = message.content.replace("_greet", "")
+
+    if (text.length < 0 || text === undefined || text === null) {
+      const error = setErrorEmbed(
+        "No has colocado a una persona a quien saludar :(",
+        "Por favor coloca a un usuario"
+      )
+
+      message.channel.send(error)
+    } else {
+      const { guild } = message
+      const icon = guild.iconURL()
+
+      let userMentioned = message?.mentions.users.first()
+      let userId = `<@${userMentioned.id}>`
+
+      console.log(userMentioned)
+
+      const embed = new MessageEmbed()
+        .setTitle(`🌟${userMentioned.username} Bienvenid@ !`, icon)
+        .setColor(colors.lemon)
+        .setImage(userMentioned.avatarURL())
+        .setDescription(`Bienvenido ${userId}`)
+        .setFooter("Happy Coding")
+
+      message.channel.send(embed)
+    }
+
+    console.log(text)
+  })
 })
 
 // Messages for the channel
@@ -439,8 +471,8 @@ const deskDev = "807114734364524564"
 const fullstack = "807114546207522876"
 const mobileDev = "807114369129250868"
 
-// Message Id
 const messageId = "807487122407030784"
+// Message Id
 
 client.on("messageReactionAdd", (reaction, user) => {
   const { name } = reaction.emoji
