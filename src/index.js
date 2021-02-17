@@ -422,7 +422,7 @@ client.on("ready", () => {
     }
   })
 
-  command(client, "greet", (message) => {
+  command(client, "greet", async (message) => {
     const text = message.content.replace("_greet", "")
 
     if (text.length < 0 || text === undefined || text === null) {
@@ -437,21 +437,38 @@ client.on("ready", () => {
       const icon = guild.iconURL()
 
       let userMentioned = message?.mentions.users.first()
-      let userId = `<@${userMentioned.id}>`
 
-      console.log(userMentioned)
+      try {
+        const res = await fetch("https://api.github.com/users/callMe-Dev/repos")
+        const data = await res.json()
 
-      const embed = new MessageEmbed()
-        .setTitle(`🌟${userMentioned.username} Bienvenid@ !`, icon)
-        .setColor(colors.lemon)
-        .setImage(userMentioned.avatarURL())
-        .setDescription(`Bienvenido ${userId}`)
-        .setFooter("Happy Coding")
+        console.log(data)
 
-      message.channel.send(embed)
+        let userId = `<@${userMentioned.id}>`
+
+        const embed = new MessageEmbed()
+          .setTitle(`${userMentioned.username} Bienvenid@🌟`, icon)
+          .setColor(colors.lemon)
+          .setThumbnail(userMentioned.avatarURL())
+          .setDescription(
+            `
+          Bienvenido ${userId}
+
+          Proyectos Activos:
+          
+          ${data.map((repo) => repo.name)}
+          `
+          )
+          .setFooter("Happy Coding🐞", icon)
+          .setImage(
+            "https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif"
+          )
+
+        message.channel.send(embed)
+      } catch (error) {
+        console.log(error)
+      }
     }
-
-    console.log(text)
   })
 })
 
