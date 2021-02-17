@@ -433,40 +433,69 @@ client.on("ready", () => {
 
       message.channel.send(error)
     } else {
-      const { guild } = message
-      const icon = guild.iconURL()
-
       let userMentioned = message?.mentions.users.first()
+      let authorId = message.author.id
 
-      try {
-        const res = await fetch("https://api.github.com/users/callMe-Dev/repos")
-        const data = await res.json()
+      console.log(message.author.id)
+      console.log(userMentioned.id)
 
-        console.log(data)
+      if (userMentioned !== undefined && userMentioned.id !== authorId) {
+        try {
+          const { guild } = message
+          const icon = guild.iconURL()
+          const res = await fetch(
+            "https://api.github.com/users/callMe-Dev/repos"
+          )
+          const data = await res.json()
 
-        let userId = `<@${userMentioned.id}>`
+          let userId = `<@${userMentioned.id}>`
 
-        const embed = new MessageEmbed()
-          .setTitle(`${userMentioned.username} Bienvenid@🌟`, icon)
-          .setColor(colors.lemon)
-          .setThumbnail(userMentioned.avatarURL())
-          .setDescription(
-            `
-          Bienvenido ${userId}
+          const repoInfo = data.map((repo, i) => {
+            let index = i + 1
+            let repoName = `${index} - ${repo.name}`
+            let repoDesc = repo.description
+            let repoUrl = repo?.html_url
 
-          Proyectos Activos:
-          
-          ${data.map((repo) => repo.name)}
+            let repoObj = {
+              name: repoName,
+              value: `
+              ${repoDesc}
+             **🖇URL:**
+              ${repoUrl}
+              `,
+            }
+
+            return repoObj
+          })
+
+          const embed = new MessageEmbed()
+            .setTitle(`Holii!🌟`, icon)
+            .setColor(colors.lemon)
+            .setThumbnail(userMentioned.avatarURL())
+            .setDescription(
+              `
+          Bienvenido ${userId} espero y disfrutes estar en este servidor :D
+
+          - Proyectos Activos:
           `
-          )
-          .setFooter("Happy Coding🐞", icon)
-          .setImage(
-            "https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif"
-          )
+            )
+            .setFooter("Happy Coding🐞", icon)
+            .setImage(
+              "https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif"
+            )
+            .addFields(repoInfo)
 
-        message.channel.send(embed)
-      } catch (error) {
-        console.log(error)
+          message.channel.send(embed)
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        const error = setErrorEmbed(
+          "No has colocado a una persona a quien saludar :(",
+          "Por favor coloca a un usuario"
+        )
+
+        message.channel.send(error)
       }
     }
   })
