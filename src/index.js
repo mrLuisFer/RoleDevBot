@@ -425,7 +425,7 @@ client.on("ready", () => {
   command(client, "greet", async (message) => {
     const text = message.content.replace("_greet", "")
 
-    if (text.length < 0 || text === undefined || text === null) {
+    if (text.length < 1 || text === undefined || text === null) {
       const error = setErrorEmbed(
         "No has colocado a una persona a quien saludar :(",
         "Por favor coloca a un usuario"
@@ -460,8 +460,7 @@ client.on("ready", () => {
               name: repoName,
               value: `
               ${repoDesc}
-             **🖇URL:**
-              ${repoUrl}
+             **URL:** ${repoUrl}
               `,
             }
 
