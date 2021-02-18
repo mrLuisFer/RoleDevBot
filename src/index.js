@@ -247,7 +247,7 @@ client.on("ready", () => {
     message.channel.send(embed)
   })
 
-  command(client, ["wiki", "wikipedia"], async (message) => {
+  command(client, "wiki", async (message) => {
     const content = message.content.replace("_wiki ", "")
 
     const getData = async (text) => {
@@ -421,6 +421,83 @@ client.on("ready", () => {
       message.channel.send(error)
     }
   })
+
+  command(client, "greet", async (message) => {
+    const text = message.content.replace("_greet", "")
+
+    if (text.length < 1 || text === undefined || text === null) {
+      const error = setErrorEmbed(
+        "No has colocado a una persona a quien saludar :(",
+        "Por favor coloca a un usuario"
+      )
+
+      message.channel.send(error)
+    } else {
+      let userMentioned = message?.mentions.users.first()
+      let authorId = message.author.id
+
+      console.log(message.author.id)
+      console.log(userMentioned.id)
+
+      if (userMentioned !== undefined && userMentioned.id !== authorId) {
+        try {
+          const { guild } = message
+          const icon = guild.iconURL()
+          const res = await fetch(
+            "https://api.github.com/users/callMe-Dev/repos"
+          )
+          const data = await res.json()
+
+          let userId = `<@${userMentioned.id}>`
+
+          const repoInfo = data.map((repo, i) => {
+            let index = i + 1
+            let repoName = `${index} - ${repo.name}`
+            let repoDesc = repo.description
+            let repoUrl = repo?.html_url
+
+            let repoObj = {
+              name: repoName,
+              value: `
+              ${repoDesc}
+             **URL:** ${repoUrl}
+              `,
+            }
+
+            return repoObj
+          })
+
+          const embed = new MessageEmbed()
+            .setTitle(`Holii!🌟`, icon)
+            .setColor(colors.lemon)
+            .setThumbnail(userMentioned.avatarURL())
+            .setDescription(
+              `
+          Bienvenido ${userId} espero y disfrutes estar en este servidor :D
+
+          - Proyectos Activos:
+          `
+            )
+            .setFooter("Happy Coding🐞", icon)
+            .setImage(
+              "https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif"
+            )
+            .addFields(repoInfo)
+
+          message.channel.send(embed)
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        const error = setErrorEmbed(
+          "No has colocado a una persona a quien saludar :(",
+          "Por favor coloca a un usuario"
+        )
+
+        message.channel.send(error)
+      }
+    }
+  })
 })
 
 // Messages for the channel
@@ -439,8 +516,8 @@ const deskDev = "807114734364524564"
 const fullstack = "807114546207522876"
 const mobileDev = "807114369129250868"
 
-// Message Id
 const messageId = "807487122407030784"
+// Message Id
 
 client.on("messageReactionAdd", (reaction, user) => {
   const { name } = reaction.emoji
