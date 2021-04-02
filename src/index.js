@@ -468,7 +468,7 @@ client.on("ready", () => {
           })
 
           const embed = new MessageEmbed()
-            .setTitle(`Holii!🌟`, icon)
+            .setTitle(`Holi!🌟`, icon)
             .setColor(colors.lemon)
             .setThumbnail(userMentioned.avatarURL())
             .setDescription(
